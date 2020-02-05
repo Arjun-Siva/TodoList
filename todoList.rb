@@ -8,60 +8,48 @@ class Todo
     end
 
     def overdue?
-        if(@due_date<Date.today)
-            return true
-        else
-            return false
-        end
+        if(@due_date<Date.today) then true else false end
     end
 
     def due_today?
-        if(@due_date==Date.today)
-            return true
-        else
-            return false
-        end
+        if(@due_date==Date.today) then true else false end
     end
 
     def due_later?
-        if(@due_date>Date.today)
-            return true
-        else
-            return false
-        end
+        if(@due_date>Date.today) then true else false end
     end
 
     def to_displayable_string
-        # FILL YOUR CODE HERE
+        "[#{if @completed then 'X' else ' ' end}] #{@text} #{if due_today? then nil else @due_date end}"
     end
 end
 
 class TodosList
-  def initialize(todos)
-    @todos = todos
-  end
+    def initialize(todos)
+        @todos = todos
+    end
 
-  def overdue
-    TodosList.new(@todos.filter { |todo| todo.overdue? })
-  end  
+    def add(single_todo)
+        @todos.push(single_todo)
+    end
 
-  def due_today
-    TodosList.new(@todos.filter { |todo| todo.due_today? })
-  end
+    def overdue
+        TodosList.new(@todos.filter { |todo| todo.overdue? })
+    end  
 
-  def due_later
-    TodosList.new(@todos.filter { |todo| todo.due_later? })
-  end
+    def due_today
+        TodosList.new(@todos.filter { |todo| todo.due_today? })
+    end
 
-  # ..
-  # ..
-  # FILL YOUR CODE HERE
-  # ..
-  # ..
+    def due_later
+        TodosList.new(@todos.filter { |todo| todo.due_later? })
+    end
 
-  def to_displayable_list
-    # FILL YOUR CODE HERE
-  end
+    def to_displayable_list
+        arr_string=[]
+        @todos.each{|todo| arr_string.push(todo.to_displayable_string)}
+        arr_string.join("\n")
+    end
 end
 
 date = Date.today
@@ -76,7 +64,7 @@ todos = todos.map { |todo|
   Todo.new(todo[:text], todo[:due_date], todo[:completed])
 }
 
-todos_list = TodosList.new(todos) #todos_list contains an array of objects of Todo inwhich each oject contains a todo
+todos_list = TodosList.new(todos)
 
 todos_list.add(Todo.new("Service vehicle", date, false))
 
