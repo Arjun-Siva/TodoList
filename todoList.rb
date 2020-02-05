@@ -1,15 +1,39 @@
 require "date"
 
 class Todo
-  # ..
-  # ..
-  # FILL YOUR CODE HERE
-  # ..
-  # ..
+    def initialize(text,date,completed)
+        @text=text
+        @due_date=date
+        @completed=completed
+    end
 
-  def to_displayable_string
-    # FILL YOUR CODE HERE
-  end
+    def overdue?
+        if(@due_date<Date.today)
+            return true
+        else
+            return false
+        end
+    end
+
+    def due_today?
+        if(@due_date==Date.today)
+            return true
+        else
+            return false
+        end
+    end
+
+    def due_later?
+        if(@due_date>Date.today)
+            return true
+        else
+            return false
+        end
+    end
+
+    def to_displayable_string
+        # FILL YOUR CODE HERE
+    end
 end
 
 class TodosList
@@ -20,6 +44,14 @@ class TodosList
   def overdue
     TodosList.new(@todos.filter { |todo| todo.overdue? })
   end  
+
+  def due_today
+    TodosList.new(@todos.filter { |todo| todo.due_today? })
+  end
+
+  def due_later
+    TodosList.new(@todos.filter { |todo| todo.due_later? })
+  end
 
   # ..
   # ..
@@ -44,7 +76,7 @@ todos = todos.map { |todo|
   Todo.new(todo[:text], todo[:due_date], todo[:completed])
 }
 
-todos_list = TodosList.new(todos)
+todos_list = TodosList.new(todos) #todos_list contains an array of objects of Todo inwhich each oject contains a todo
 
 todos_list.add(Todo.new("Service vehicle", date, false))
 
